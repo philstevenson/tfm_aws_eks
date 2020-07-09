@@ -1,0 +1,36 @@
+apiVersion: cert-manager.io/v1alpha3
+kind: ClusterIssuer
+metadata:
+  name: cert-manager-lets-encrypt-stg-cluster-issuer
+spec:
+  acme:
+    email: ${notification_email}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cert-manager-lets-encrypt-stg-cluster-issuer-account-key
+    solvers:
+    - selector:
+        dnsZones:
+          ${dns_zone_names}
+      dns01:
+        route53:
+          region: ${region}
+
+---
+apiVersion: cert-manager.io/v1alpha3
+kind: ClusterIssuer
+metadata:
+  name: cert-manager-lets-encrypt-prd-cluster-issuer
+spec:
+  acme:
+    email: ${notification_email}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: cert-manager-lets-encrypt-prd-cluster-issuer-account-key
+    solvers:
+    - selector:
+        dnsZones:
+          ${dns_zone_names}
+      dns01:
+        route53:
+          region: ${region}

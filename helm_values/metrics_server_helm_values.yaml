@@ -1,0 +1,11 @@
+args:
+  - --kubelet-insecure-tls=true
+  - --kubelet-preferred-address-types=InternalIP,Hostname,ExternalIP
+  - --metric-resolution=1s
+resources:
+  limits:
+    memory: 64Mi
+    cpu: 100m
+  requests:
+    memory: 32Mi
+    cpu: 50m

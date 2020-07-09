@@ -1,0 +1,9 @@
+.terraform
+terraform.tfstate.backup
+terraform.tfstate
+
+kubeconfig
+.DS_Store
+.terraform.tfstate.lock.info
+.tmp
+istio_yaml/config.yaml

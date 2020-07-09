@@ -1,0 +1,17 @@
+provider: aws
+region: ${region}
+extraArgs:
+  source: istio-gateway
+publishInternalServices: false
+txtPrefix: txt.
+rbac:
+  create: true
+  serviceAccountAnnotations:
+    eks.amazonaws.com/role-arn: ${external_dns_role_arn}
+resources:
+  limits:
+    memory: 50Mi
+    cpu: 100m
+  requests:
+    memory: 50Mi
+    cpu: 10m

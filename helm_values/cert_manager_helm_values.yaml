@@ -1,0 +1,18 @@
+global:
+  leaderElection:
+    namespace: cert-manager
+ingressShim:
+  defaultIssuerName: cert-manager-lets-encrypt-prd-cluster-issuer
+  defaultIssuerKind: ClusterIssuer
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: ${cert_manager_role_arn}
+resources:
+  limits:
+    memory: 64Mi
+    cpu: 50m
+  requests:
+    memory: 32Mi
+    cpu: 10m
+prometheus:
+  enabled: false
