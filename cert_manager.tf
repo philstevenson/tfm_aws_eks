@@ -4,7 +4,7 @@ locals {
 
 # https://raw.githubusercontent.com/jetstack/cert-manager/v0.14.1/deploy/manifests/00-crds.yaml
 resource "null_resource" "cert_manager_crds" {
-  count = var.enable_external_dns ? 1 : 0
+  count = var.enable_cert_manager ? 1 : 0
   triggers = {
     version    = var.cert_manager_version
     kubeconfig = module.eks-cluster.kubeconfig_filename
