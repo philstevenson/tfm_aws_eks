@@ -1,0 +1,47 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: externalgateway-request-auth
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: externalgateway
+  jwtRules:
+  - issuer: "${oauth_issuer}"
+    jwksUri: "${oauth_jwks_uri}"
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: externalgateway-request-auth-deny-all
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: externalgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: externalgateway-request-auth-allow-cluster
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: externalgateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    when:
+    - key: request.auth.audiences
+      values:
+      - "*.${cluster_domain}"
