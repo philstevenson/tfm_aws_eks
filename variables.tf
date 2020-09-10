@@ -59,6 +59,12 @@ variable "node_groups" {
   default     = {}
 }
 
+variable "workers_additional_policies" {
+  description = "Additional policies to be added to workers"
+  type        = list(string)
+  default     = []
+}
+
 variable "map_roles" {
   description = "Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format."
   type = list(object({

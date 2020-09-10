@@ -77,3 +77,8 @@ output "node_groups" {
   description = "Outputs from EKS node groups. Map of maps, keyed by var.node_groups keys"
   value       = module.eks_cluster.node_groups
 }
+
+output "worker_security_group_id" {
+  description = "Security group ID attached to the EKS workers."
+  value       = module.eks_cluster.worker_security_group_id
+}
