@@ -107,7 +107,7 @@ variable "cert_manager_enabled" {
 
 variable "cert_manager_chart_version" {
   description = "The Helm chart version of cert-manager (chart repo: https://github.com/jetstack/cert-manager/tree/master/deploy/charts/cert-manager)"
-  default     = "0.15.2"
+  default     = "0.16.1"
 }
 
 variable "cert_manager_lets_encrypt_cluster_issuer_enabled" {
