@@ -32,6 +32,9 @@ spec:
         {{- with .Values.node.tolerations }}
         {{- . | toYaml | nindent 8 }}
         {{- end }}
+      {{- if .Values.node.affinity }}
+      affinity: {{ toYaml .Values.node.affinity | nindent 8 }}
+      {{- end}}
       containers:
         - name: efs-plugin
           securityContext:

@@ -42,5 +42,14 @@ tolerations: []
 affinity: {}
 
 node:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: eks.amazonaws.com/compute-type
+            operator: NotIn
+            values:
+            - fargate
   podAnnotations: {}
   tolerations: []

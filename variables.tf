@@ -313,3 +313,18 @@ variable "kubernetes_dashboard_ingress_hostname" {
   type        = string
   default     = ""
 }
+
+###
+## AWS EFS CSI driver variables
+###
+
+variable "efs_enabled" {
+  description = "Deploy AWS EFS CSI driver (https://github.com/kubernetes-sigs/aws-efs-csi-driver)"
+  type        = bool
+  default     = false
+}
+
+variable "aws_efs_chart_version" {
+  description = "The Helm chart version of AWS EFS CSI driver (chart repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver/helm)"
+}
+
