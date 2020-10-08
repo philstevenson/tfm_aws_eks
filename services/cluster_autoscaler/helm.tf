@@ -6,8 +6,8 @@ resource "kubernetes_namespace" "cluster_autoscaler" {
 
 resource "helm_release" "cluster_autoscaler" {
   name       = var.name
-  repository = "https://kubernetes-charts.storage.googleapis.com"
-  chart      = "cluster-autoscaler"
+  repository = "https://kubernetes.github.io/autoscaler"
+  chart      = "cluster-autoscaler-chart"
   namespace  = kubernetes_namespace.cluster_autoscaler.metadata.0.name
   version    = var.chart_version
 
@@ -22,7 +22,7 @@ resource "helm_release" "cluster_autoscaler" {
   }
 
   set {
-    name  = "rbac.serviceAccountAnnotations.eks\\.amazonaws\\.com/role-arn"
+    name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
     value = aws_iam_role.cluster_autoscaler.arn
     type  = "string"
   }
@@ -30,6 +30,11 @@ resource "helm_release" "cluster_autoscaler" {
   set {
     name  = "autoDiscovery.clusterName"
     value = var.cluster_id
+  }
+
+  set {
+    name  = "image.tag"
+    value = var.image_tag
   }
 
   set {

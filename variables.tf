@@ -154,14 +154,19 @@ variable "aws_alb_ingress_chart_version" {
 ###
 
 variable "cluster_autoscaler_enabled" {
-  description = "deploy cluster_autoscaler (https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler)"
+  description = "deploy cluster_autoscaler (https://github.com/kubernetes/autoscaler/)"
   type        = bool
   default     = false
 }
 
 variable "cluster_autoscaler_chart_version" {
-  description = "The Helm chart version of cluster_autoscaler (chart repo: https://github.com/helm/charts/tree/master/stable/cluster-autoscaler)"
-  default     = "7.3.4"
+  description = "The Helm chart version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
+  default     = "1.0.3"
+}
+
+variable "cluster_autoscaler_image_tag" {
+  description = "The Helm chart version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
+  default     = "v1.17.3"
 }
 
 ###
