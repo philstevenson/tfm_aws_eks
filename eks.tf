@@ -13,7 +13,7 @@ module "eks_cluster" {
   cluster_delete_timeout          = var.cluster_delete_timeout
 
   write_kubeconfig   = true
-  config_output_path = "${path.module}/"
+  config_output_path = "${path.root}/"
   # Use aws cli for authentication
   kubeconfig_aws_authenticator_command = "aws"
   kubeconfig_aws_authenticator_command_args = [
@@ -38,6 +38,8 @@ module "eks_cluster" {
   )
 
   node_groups = var.node_groups
+
+  workers_additional_policies = var.workers_additional_policies
 
   map_roles = var.map_roles
 }
