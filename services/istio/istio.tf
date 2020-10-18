@@ -70,7 +70,7 @@ data "template_file" "istio_component_ingress_yaml" {
   template = file(each.value)
   vars = {
     cluster_domain                      = var.cluster_domain
-    secret_name_suffix                  = "${replace(var.cluster_domain, ".", "-")}"
+    secret_name_suffix                  = replace(var.cluster_domain, ".", "-")
     cert_manager_default_cluster_issuer = var.cert_manager_default_cluster_issuer
   }
 }
