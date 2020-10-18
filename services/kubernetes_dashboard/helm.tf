@@ -26,6 +26,11 @@ resource "helm_release" "kubernetes_dashboard" {
     value = "kubernetes-dashboard"
   }
 
+  set {
+    name  = "protocolHttp"
+    value = "true"
+  }
+
   values = [
     (var.ingress_hostname != "") && var.ingress_enabled ? local.ingress_config : "",
   ]
