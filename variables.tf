@@ -113,7 +113,7 @@ variable "cert_manager_enabled" {
 
 variable "cert_manager_chart_version" {
   description = "The Helm chart version of cert-manager (chart repo: https://github.com/jetstack/cert-manager/tree/master/deploy/charts/cert-manager)"
-  default     = "0.16.1"
+  default     = "v1.0.3"
 }
 
 variable "cert_manager_lets_encrypt_cluster_issuer_enabled" {
@@ -181,7 +181,7 @@ variable "external_dns_enabled" {
 
 variable "external_dns_chart_version" {
   description = "The Helm chart version of external_dns (chart repo: https://github.com/bitnami/charts/tree/master/bitnami/external-dns)"
-  default     = "3.2.3"
+  default     = "3.4.8"
 }
 
 ###
@@ -304,7 +304,7 @@ variable "kubernetes_dashboard_enabled" {
 
 variable "kubernetes_dashboard_chart_version" {
   description = "The Helm chart version of kubernetes_dashboard (chart repo: https://github.com/kubernetes/dashboard/tree/master/aio/deploy/helm-chart/kubernetes-dashboard)"
-  default     = "2.3.0"
+  default     = "2.8.1"
 }
 
 variable "kubernetes_dashboard_ingress_enabled" {
