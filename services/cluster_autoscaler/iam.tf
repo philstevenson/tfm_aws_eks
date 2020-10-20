@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "${trimprefix(var.cluster_oidc_issuer_url, "https://")}:sub"
-      values   = ["system:serviceaccount:${var.name}:${var.name}-aws-cluster-autoscaler"]
+      values   = ["system:serviceaccount:${kubernetes_namespace.cluster_autoscaler.metadata.0.name}:${var.name}-aws-cluster-autoscaler-chart"]
     }
   }
 }
