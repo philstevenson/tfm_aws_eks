@@ -1,6 +1,5 @@
 locals {
   ingress_config = yamlencode({
-    "protocolHttp" = true,
     "extraArgs" : [
       "--enable-insecure-login"
     ],
