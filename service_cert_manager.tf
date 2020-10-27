@@ -14,5 +14,4 @@ module "cert_manager" {
   lets_encrypt_default_certificate_type = var.cert_manager_lets_encrypt_default_certificate_type
   dns_public_zone_names                 = local.dns_public_zone_names
 
-  depends_on = [module.eks_cluster]
 }

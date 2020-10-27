@@ -11,5 +11,4 @@ module "external_dns" {
   dns_public_zone_names        = local.dns_public_zone_names
   istio_gateway_source_enabled = var.istio_enabled
 
-  depends_on = [module.eks_cluster]
 }
