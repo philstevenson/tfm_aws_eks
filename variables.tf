@@ -247,6 +247,11 @@ variable "cluster_autoscaler_image_tag" {
   default     = "v1.17.3"
 }
 
+variable "cluster_autoscaler_extra_arguments" {
+  description = "Additional container arguments for K8s Autoscaler in an HCL map. Changes how Autoscaler takes decisions. Possible values at https://github.com/kubernetes/autoscaler/blob/master/charts/cluster-autoscaler-chart/values.yaml"
+  type        = map(string)
+  default     = {}
+}
 ###
 ## external_dns variables
 ###

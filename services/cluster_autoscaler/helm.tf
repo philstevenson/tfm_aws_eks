@@ -29,6 +29,13 @@ resource "helm_release" "cluster_autoscaler" {
       "image" = {
         "tag" = var.image_tag,
       },
+      "extraArgs" = merge(
+        {
+          "logtostderr"     = true,
+          "stderrthreshold" = "info",
+        },
+        var.extra_arguments,
+      )
     }),
   ]
 }
