@@ -8,7 +8,7 @@ variable "cluster_name" {
 
 variable "cluster_version" {
   type    = string
-  default = "1.17"
+  default = "1.18"
 }
 
 variable "cluster_enabled_log_types" {
@@ -375,7 +375,7 @@ variable "ambassador_oauth_client_secret" {
 ###
 
 variable "kubernetes_dashboard_enabled" {
-  description = "deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
+  description = "Deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
   type        = bool
   default     = true
 }
@@ -386,19 +386,19 @@ variable "kubernetes_dashboard_chart_version" {
 }
 
 variable "kubernetes_dashboard_ingress_enabled" {
-  description = "enable ingress for kubernetes_dashboard"
+  description = "Enable ingress for kubernetes_dashboard"
   type        = bool
   default     = false
 }
 
 variable "kubernetes_dashboard_ingress_class" {
-  description = "ingress class for kubernetes_dashboard"
+  description = "Ingress class for kubernetes_dashboard"
   type        = string
   default     = "ambassador"
 }
 
 variable "kubernetes_dashboard_ingress_hostname" {
-  description = "ingress hostname for kubernetes_dashboard"
+  description = "Ingress hostname for kubernetes_dashboard"
   type        = string
   default     = ""
 }
