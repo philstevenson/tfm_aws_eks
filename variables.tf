@@ -8,7 +8,7 @@ variable "cluster_name" {
 
 variable "cluster_version" {
   type    = string
-  default = "1.17"
+  default = "1.18"
 }
 
 variable "cluster_enabled_log_types" {
@@ -33,11 +33,6 @@ variable "cluster_log_kms_key_id" {
   default = ""
 }
 
-variable "cluster_endpoint_access" {
-  description = "Valid values are public, private and both"
-  default     = "public"
-}
-
 variable "cluster_delete_timeout" {
   description = ""
   default     = "30m"
@@ -53,20 +48,38 @@ variable "vpc_id" {
   description = "ID of the VPC this project is going to be deployed on"
 }
 
+variable "cluster_endpoint_private_access_cidrs" {
+  description = "List of CIDR blocks which can access the Amazon EKS private API server endpoint."
+  type        = list(string)
+  default     = null
+}
+
+variable "cluster_endpoint_private_access" {
+  description = "Indicates whether or not the Amazon EKS private API server endpoint is enabled."
+  type        = bool
+  default     = false
+}
+
+variable "cluster_endpoint_public_access" {
+  description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled."
+  type        = bool
+  default     = true
+}
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDR blocks which can access the Amazon EKS public API server endpoint."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
 variable "node_groups" {
   description = "Map of map of node groups to create. See `node_groups` module's documentation for more details"
   type        = any
   default     = {}
 }
 
-variable "workers_additional_policies" {
-  description = "Additional policies to be added to workers"
-  type        = list(string)
-  default     = []
-}
-
 variable "map_roles" {
-  description = "Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format."
+  description = "Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf at https://github.com/terraform-aws-modules/terraform-aws-eks for example format."
   type = list(object({
     rolearn  = string
     username = string
@@ -84,6 +97,71 @@ variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)
   default     = {}
+}
+
+
+###
+## EKS workers
+###
+
+variable "worker_groups" {
+  description = "A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults at https://github.com/terraform-aws-modules/terraform-aws-eks/local.tf  for valid keys."
+  type        = any
+  default     = []
+}
+
+variable "workers_group_defaults" {
+  description = "Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys."
+  type        = any
+  default     = {}
+}
+
+variable "worker_groups_launch_template" {
+  description = "A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults at https://github.com/terraform-aws-modules/terraform-aws-eks/local.tf for valid keys."
+  type        = any
+  default     = []
+}
+
+variable "worker_ami_name_filter" {
+  description = "Name filter for AWS EKS worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used."
+  type        = string
+  default     = ""
+}
+
+variable "worker_ami_name_filter_windows" {
+  description = "Name filter for AWS EKS Windows worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used."
+  type        = string
+  default     = ""
+}
+
+variable "worker_ami_owner_id" {
+  description = "The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft')."
+  type        = string
+  default     = "amazon"
+}
+
+variable "worker_ami_owner_id_windows" {
+  description = "The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft')."
+  type        = string
+  default     = "amazon"
+}
+
+variable "worker_security_group_id" {
+  description = "If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster."
+  type        = string
+  default     = ""
+}
+
+variable "worker_additional_security_group_ids" {
+  description = "A list of additional security group ids to attach to worker instances"
+  type        = list(string)
+  default     = []
+}
+
+variable "workers_additional_policies" {
+  description = "Additional policies to be added to workers"
+  type        = list(string)
+  default     = []
 }
 
 ###
@@ -169,6 +247,11 @@ variable "cluster_autoscaler_image_tag" {
   default     = "v1.17.3"
 }
 
+variable "cluster_autoscaler_extra_arguments" {
+  description = "Additional container arguments for K8s Autoscaler in an HCL map. Changes how Autoscaler takes decisions. Possible values at https://github.com/kubernetes/autoscaler/blob/master/charts/cluster-autoscaler-chart/values.yaml"
+  type        = map(string)
+  default     = {}
+}
 ###
 ## external_dns variables
 ###
@@ -297,7 +380,7 @@ variable "ambassador_oauth_client_secret" {
 ###
 
 variable "kubernetes_dashboard_enabled" {
-  description = "deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
+  description = "Deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
   type        = bool
   default     = true
 }
@@ -308,19 +391,19 @@ variable "kubernetes_dashboard_chart_version" {
 }
 
 variable "kubernetes_dashboard_ingress_enabled" {
-  description = "enable ingress for kubernetes_dashboard"
+  description = "Enable ingress for kubernetes_dashboard"
   type        = bool
   default     = false
 }
 
 variable "kubernetes_dashboard_ingress_class" {
-  description = "ingress class for kubernetes_dashboard"
+  description = "Ingress class for kubernetes_dashboard"
   type        = string
   default     = "ambassador"
 }
 
 variable "kubernetes_dashboard_ingress_hostname" {
-  description = "ingress hostname for kubernetes_dashboard"
+  description = "Ingress hostname for kubernetes_dashboard"
   type        = string
   default     = ""
 }
