@@ -1,14 +1,14 @@
-resource "kubernetes_namespace" "aws_alb_ingress" {
+resource "kubernetes_namespace" "aws_lb_ingress" {
   metadata {
     name = var.name
   }
 }
 
-resource "helm_release" "aws_alb_ingress" {
+resource "helm_release" "aws_lb_ingress" {
   name       = var.name
-  repository = "https://kubernetes-charts-incubator.storage.googleapis.com"
-  chart      = "aws-alb-ingress-controller"
-  namespace  = kubernetes_namespace.aws_alb_ingress.metadata.0.name
+  repository = "https://aws.github.io/eks-charts"
+  chart      = "aws-load-balancer-controller"
+  namespace  = kubernetes_namespace.aws_lb_ingress.metadata.0.name
   version    = var.chart_version
 
   set {
@@ -30,7 +30,7 @@ resource "helm_release" "aws_alb_ingress" {
     "rbac" = {
       "serviceAccount" = {
         "annotations" = {
-          "eks.amazonaws.com/role-arn" = aws_iam_role.aws_alb_ingress_controller.arn,
+          "eks.amazonaws.com/role-arn" = aws_iam_role.aws_lb_ingress_controller.arn,
         }
       }
     }

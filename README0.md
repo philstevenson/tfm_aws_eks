@@ -160,7 +160,7 @@ Services are defined in submodules to keep the file structure tidy. These submod
 
 `./services/ambassador_ingress` - Installs ambassador ingress controller extra variables allow for Oauth2 authentication.
 
-`./services/aws_alb_ingress_controller` - Installs the ALB ingress controller.
+`./services/aws_lb_ingress_controller` - Installs the ALB ingress controller.
 
 `./services/cert_manager` - Installs cert-manager allowing for automated lets encrypt certificates.
 

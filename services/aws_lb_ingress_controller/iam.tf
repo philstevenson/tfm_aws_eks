@@ -1,4 +1,4 @@
-data "aws_iam_policy_document" "aws_alb_ingress_controller_assume_role" {
+data "aws_iam_policy_document" "aws_lb_ingress_controller_assume_role" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -14,16 +14,16 @@ data "aws_iam_policy_document" "aws_alb_ingress_controller_assume_role" {
   }
 }
 
-resource "aws_iam_role" "aws_alb_ingress_controller" {
+resource "aws_iam_role" "aws_lb_ingress_controller" {
   name               = "${var.cluster_id}-${data.aws_region.current.name}-${var.name}"
   description        = "${var.name} ALB access"
-  assume_role_policy = data.aws_iam_policy_document.aws_alb_ingress_controller_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.aws_lb_ingress_controller_assume_role.json
 }
 
 ## TODO: This policy needs a review, permissions are quite wide
-resource "aws_iam_role_policy" "aws_alb_ingress_controller" {
+resource "aws_iam_role_policy" "aws_lb_ingress_controller" {
   name   = "${var.cluster_id}-${data.aws_region.current.name}-${var.name}"
-  role   = aws_iam_role.aws_alb_ingress_controller.id
+  role   = aws_iam_role.aws_lb_ingress_controller.id
   policy = <<POLICY
 {
   "Version": "2012-10-17",
