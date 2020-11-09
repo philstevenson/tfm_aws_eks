@@ -11,22 +11,13 @@ resource "helm_release" "aws_lb_ingress" {
   namespace  = kubernetes_namespace.aws_lb_ingress.metadata.0.name
   version    = var.chart_version
 
-  set {
-    name  = "autoDiscoverAwsRegion"
-    value = true
-  }
-
-  set {
-    name  = "autoDiscoverAwsVpcID"
-    value = true
-  }
-
-  set {
-    name  = "clusterName"
-    value = var.cluster_id
-  }
-
   values = [yamlencode({
+    "autoDiscoverAwsRegion" = true
+    "autoDiscoverAwsVpcID"  = true
+    "clusterName"           = var.cluster_id
+    "image" = {
+      "tag" = var.app_version
+    }
     "rbac" = {
       "serviceAccount" = {
         "annotations" = {
@@ -35,4 +26,23 @@ resource "helm_release" "aws_lb_ingress" {
       }
     }
   })]
+
+  depends_on = [null_resource.aws_lb_ingress]
+}
+
+resource "null_resource" "aws_lb_ingress" {
+  triggers = {
+    kubeconfig                 = var.kubeconfig_filename,
+    md5_crds_checksum          = filemd5("${path.module}/crds/crds.yaml")
+    md5_kustomization_checksum = filemd5("${path.module}/crds/kustomization.yaml")
+  }
+
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig='${self.triggers.kubeconfig}' apply -k ${path.module}/crds/"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "kubectl --kubeconfig='${self.triggers.kubeconfig}' delete -k ${path.module}/crds/"
+  }
 }

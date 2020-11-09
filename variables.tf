@@ -217,7 +217,7 @@ variable "cert_manager_lets_encrypt_default_certificate_type" {
 ###
 
 variable "aws_lb_ingress_enabled" {
-  description = "Deploy of aws-load-balancer-controller (https://github.com/kubernetes-sigs/aws-alb-ingress-controller)"
+  description = "Deploy of aws-load-balancer-controller (https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
   type        = bool
   default     = false
 }
