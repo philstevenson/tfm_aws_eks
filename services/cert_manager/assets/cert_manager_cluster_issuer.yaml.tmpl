@@ -10,8 +10,9 @@ spec:
       name: cert-manager-lets-encrypt-stg-cluster-issuer-account-key
     solvers:
     - selector:
-        dnsZones:
-          ${dns_public_zone_names}
+        ${indent(12, yamlencode({
+          "dnsZones": [for zone_name in dns_public_zone_names : "${zone_name}"],
+        }))}
       dns01:
         route53:
           region: ${region}
@@ -29,8 +30,9 @@ spec:
       name: cert-manager-lets-encrypt-prd-cluster-issuer-account-key
     solvers:
     - selector:
-        dnsZones:
-          ${dns_public_zone_names}
+        ${indent(12, yamlencode({
+          "dnsZones": [for zone_name in dns_public_zone_names : "${zone_name}"],
+        }))}
       dns01:
         route53:
           region: ${region}
