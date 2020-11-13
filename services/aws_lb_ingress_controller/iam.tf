@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "aws_lb_ingress_controller_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "${trimprefix(var.cluster_oidc_issuer_url, "https://")}:sub"
-      values   = ["system:serviceaccount:${var.name}:${var.name}-aws-alb-ingress-controller"]
+      values   = ["system:serviceaccount:${var.name}:${var.name}-aws-load-balancer-controller"]
     }
   }
 }
@@ -186,8 +186,6 @@ resource "aws_iam_role_policy" "aws_lb_ingress_controller" {
                 "elasticloadbalancing:DeleteLoadBalancer",
                 "elasticloadbalancing:ModifyTargetGroup",
                 "elasticloadbalancing:ModifyTargetGroupAttributes",
-                "elasticloadbalancing:RegisterTargets",
-                "elasticloadbalancing:DeregisterTargets",
                 "elasticloadbalancing:DeleteTargetGroup"
             ],
             "Resource": "*",
@@ -196,6 +194,14 @@ resource "aws_iam_role_policy" "aws_lb_ingress_controller" {
                     "aws:ResourceTag/elbv2.k8s.aws/cluster": "false"
                 }
             }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:DeregisterTargets"
+            ],
+            "Resource": "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
         },
         {
             "Effect": "Allow",

@@ -1,6 +1,6 @@
 variable "name" {
   type    = string
-  default = "aws-alb-ingress"
+  default = "aws-lb-ingress"
 }
 
 variable "chart_version" {

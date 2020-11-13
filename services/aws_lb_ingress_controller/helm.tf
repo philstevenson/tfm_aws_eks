@@ -12,17 +12,14 @@ resource "helm_release" "aws_lb_ingress" {
   version    = var.chart_version
 
   values = [yamlencode({
-    "autoDiscoverAwsRegion" = true
-    "autoDiscoverAwsVpcID"  = true
-    "clusterName"           = var.cluster_id
+    "clusterName" = var.cluster_id
     "image" = {
       "tag" = var.app_version
     }
-    "rbac" = {
-      "serviceAccount" = {
-        "annotations" = {
-          "eks.amazonaws.com/role-arn" = aws_iam_role.aws_lb_ingress_controller.arn,
-        }
+    "serviceAccount" = {
+      "create" = true
+      "annotations" = {
+        "eks.amazonaws.com/role-arn" = aws_iam_role.aws_lb_ingress_controller.arn,
       }
     }
   })]
