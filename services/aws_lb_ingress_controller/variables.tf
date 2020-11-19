@@ -1,9 +1,13 @@
 variable "name" {
   type    = string
-  default = "aws-alb-ingress"
+  default = "aws-lb-ingress"
 }
 
 variable "chart_version" {
+  type = string
+}
+
+variable "app_version" {
   type = string
 }
 
@@ -16,5 +20,9 @@ variable "oidc_provider_arn" {
 }
 
 variable "cluster_oidc_issuer_url" {
+  type = string
+}
+
+variable "kubeconfig_filename" {
   type = string
 }
