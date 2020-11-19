@@ -213,18 +213,23 @@ variable "cert_manager_lets_encrypt_default_certificate_type" {
 }
 
 ###
-## aws_alb_ingress variables
+## aws_lb_ingress variables
 ###
 
-variable "aws_alb_ingress_enabled" {
-  description = "Deploy of aws-alb-ingress-controller (https://github.com/kubernetes-sigs/aws-alb-ingress-controller)"
+variable "aws_lb_ingress_enabled" {
+  description = "Deploy of aws-load-balancer-controller (https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
   type        = bool
   default     = false
 }
 
-variable "aws_alb_ingress_chart_version" {
-  description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://github.com/helm/charts/tree/master/incubator/aws-alb-ingress-controller)"
-  default     = "1.0.2"
+variable "aws_lb_ingress_chart_version" {
+  description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://aws.github.io/eks-charts)"
+  default     = "1.0.5"
+}
+
+variable "aws_lb_ingress_app_version" {
+  description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
+  default     = "2.0.0"
 }
 
 ###

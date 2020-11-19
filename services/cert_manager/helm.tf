@@ -53,23 +53,17 @@ resource "helm_release" "cert_manager" {
   ]
 }
 
-data "template_file" "cert_manager_cluster_issuers" {
-  count    = var.lets_encrypt_cluster_issuer_enabled && (var.lets_encrypt_notification_email != "") ? 1 : 0
-  template = file("${path.module}/assets/cert_manager_cluster_issuer.yaml")
-  vars = {
-    dns_public_zone_names = yamlencode(var.dns_public_zone_names)
-    region                = data.aws_region.current.name
-    notification_email    = var.lets_encrypt_notification_email
-  }
-}
-
 resource "null_resource" "cert_manager_cluster_issuers" {
   depends_on = [helm_release.cert_manager]
 
   count = var.lets_encrypt_cluster_issuer_enabled && (var.lets_encrypt_notification_email != "") ? 1 : 0
 
   triggers = {
-    file       = data.template_file.cert_manager_cluster_issuers[count.index].rendered
+    file = templatefile("${path.module}/assets/cert_manager_cluster_issuer.yaml.tmpl", {
+      dns_public_zone_names = var.dns_public_zone_names
+      region                = data.aws_region.current.name
+      notification_email    = var.lets_encrypt_notification_email
+    })
     kubeconfig = var.kubeconfig_filename
     version    = var.chart_version
   }
