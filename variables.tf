@@ -186,7 +186,7 @@ variable "workers_additional_policies" {
 
 variable "dns_public_zone_names" {
   description = "The zone names of AWS route53 zones that external-dns, cert-manager, base services use. First in the list is the Primary for internal services"
-  type        = list
+  type        = list(string)
   default     = []
 }
 
@@ -374,7 +374,7 @@ variable "ambassador_oauth_enabled" {
 
 variable "ambassador_oauth_protected_hosts" {
   description = "List of hostnames protected by oauth filter"
-  type        = list
+  type        = list(any)
   default     = [""]
 }
 
@@ -441,6 +441,38 @@ variable "efs_enabled" {
 
 variable "aws_efs_chart_version" {
   description = "The Helm chart version of AWS EFS CSI driver (chart repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver/helm)"
+}
+
+###
+## AWS for Fluent Bit (Container logs to Cloudwatch logs)
+###
+
+variable "fluentbit_cloudwatchlogs_enabled" {
+  description = "Deploy fluent bit for EKS (https://github.com/aws/aws-for-fluent-bit)"
+  type        = bool
+  default     = false
+}
+
+variable "fluentbit_cloudwatchlogs_chart_version" {
+  description = "The Helm chart version of AWS for fluent bit Helm chart (https://github.com/aws/eks-charts/tree/master/stable/aws-for-fluent-bit)"
+  type        = string
+  default     = "0.1.5"
+}
+
+variable "fluentbit_cloudwatchlogs_image_tag" {
+  description = "The app version of AWS for fluent bit (https://github.com/aws/aws-for-fluent-bit)"
+  type        = string
+  default     = "2.7.0"
+}
+
+variable "fluentbit_cloudwatchlogs_log_group_name" {
+  description = "The name of the Log Group used to store all the logs in Cloudwatch Logs"
+  type        = string
+}
+
+variable "fluentbit_cloudwatchlogs_retention_in_days" {
+  description = "Specifies the number of days you want to retain log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0. If you select 0, the events in the log group are always retained and never expire."
+  type        = number
 }
 
 ###
