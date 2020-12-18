@@ -443,3 +443,25 @@ variable "aws_efs_chart_version" {
   description = "The Helm chart version of AWS EFS CSI driver (chart repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver/helm)"
 }
 
+###
+## AWS Cloudwatch metrics
+###
+
+variable "cloudwatch_metrics_enabled" {
+  description = "Deploy AWS Cloudwatch metrics agent for EKS (https://github.com/aws/amazon-cloudwatch-agent)"
+  type        = bool
+  default     = false
+}
+
+variable "cloudwatch_metrics_chart_version" {
+  description = "The Helm chart version of aws-cloudwatch-metrics Helm chart (https://github.com/aws/eks-charts/tree/master/stable/aws-cloudwatch-metrics)"
+  type        = string
+  default     = "0.0.1"
+}
+
+variable "cloudwatch_metrics_image_tag" {
+  description = "The app version of AWS Cloudwatch metrics agent for EKS (https://github.com/aws/amazon-cloudwatch-agent)"
+  type        = string
+  default     = "1.247345.36b249270"
+}
+
