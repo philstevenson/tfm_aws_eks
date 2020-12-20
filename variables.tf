@@ -186,7 +186,7 @@ variable "workers_additional_policies" {
 
 variable "dns_public_zone_names" {
   description = "The zone names of AWS route53 zones that external-dns, cert-manager, base services use. First in the list is the Primary for internal services"
-  type        = list
+  type        = list(string)
   default     = []
 }
 
@@ -374,7 +374,7 @@ variable "ambassador_oauth_enabled" {
 
 variable "ambassador_oauth_protected_hosts" {
   description = "List of hostnames protected by oauth filter"
-  type        = list
+  type        = list(any)
   default     = [""]
 }
 
