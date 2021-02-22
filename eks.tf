@@ -51,5 +51,7 @@ module "eks_cluster" {
   worker_security_group_id       = var.worker_security_group_id
   workers_group_defaults         = var.workers_group_defaults
 
+  map_accounts = var.map_accounts
   map_roles = var.map_roles
+  map_users = var.map_users
 }
