@@ -475,6 +475,12 @@ variable "fluentbit_cloudwatchlogs_retention_in_days" {
   type        = number
 }
 
+variable "fluentbit_cloudwatchlogs_toleration_noschedule" {
+  description = "List of keys to add to pod tolerations (e.g.: mycompany.com/compute_profile). It will be added as 'operator: Exists' and 'effect: NoSchedule'"
+  type        = list(string)
+  default     = []
+}
+
 ###
 ## AWS Cloudwatch metrics
 ###
