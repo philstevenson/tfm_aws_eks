@@ -57,8 +57,17 @@ resources:
   limits:
     memory: 500Mi
   requests:
-    cpu: 500m
+    cpu: 256m
     memory: 500Mi
+
+%{if length(var.toleration_noschedule) > 0}
+tolerations:
+%{endif}
+%{for key in var.toleration_noschedule}
+  - key: ${key}
+    operator: Exists
+    effect: NoSchedule
+%{endfor}
 CONFIG
 }
 

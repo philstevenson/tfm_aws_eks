@@ -38,3 +38,9 @@ variable "oidc_provider_arn" {
 variable "cluster_oidc_issuer_url" {
   type = string
 }
+
+variable "toleration_noschedule" {
+  description = "List of keys to add to pod tolerations"
+  type        = list(string)
+  default     = []
+}
