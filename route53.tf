@@ -17,5 +17,5 @@ resource "aws_route53_record" "eks_cluster_endpoint" {
   name    = "api.${aws_route53_zone.internal_zone.name}"
   type    = "CNAME"
   ttl     = "300"
-  records = [trimprefix(module.eks_cluster.cluster_endpoint, "https://")]
+  records = [trimprefix(var.cluster_endpoint, "https://")]
 }

@@ -8,5 +8,4 @@ module "kubernetes_dashboard" {
   ingress_class    = var.kubernetes_dashboard_ingress_class
   ingress_hostname = var.kubernetes_dashboard_ingress_hostname
 
-  depends_on = [module.eks_cluster]
 }

@@ -10,9 +10,9 @@ module "fluentbit_cloudwatchlogs" {
   log_group_name    = var.fluentbit_cloudwatchlogs_log_group_name
   retention_in_days = var.fluentbit_cloudwatchlogs_retention_in_days
 
-  cluster_id              = module.eks_cluster.cluster_id
-  oidc_provider_arn       = module.eks_cluster.oidc_provider_arn
-  cluster_oidc_issuer_url = module.eks_cluster.cluster_oidc_issuer_url
+  cluster_id              = var.cluster_id
+  oidc_provider_arn       = var.oidc_provider_arn
+  cluster_oidc_issuer_url = var.cluster_oidc_issuer_url
 
   tags = var.tags
 }

@@ -3,7 +3,7 @@ module "ambassador_ingress" {
   source = "./services/ambassador_ingress"
 
   chart_version       = var.ambassador_ingress_chart_version
-  kubeconfig_filename = module.eks_cluster.kubeconfig_filename
+  kubeconfig_filename = var.kubeconfig_filename
 
   oauth_filter_enabled  = var.ambassador_oauth_enabled
   oauth_protected_hosts = var.ambassador_oauth_protected_hosts
@@ -11,5 +11,4 @@ module "ambassador_ingress" {
   oauth_client_id       = var.ambassador_oauth_client_id
   oauth_client_secret   = var.ambassador_oauth_client_secret
 
-  depends_on = [module.eks_cluster]
 }

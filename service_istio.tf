@@ -2,8 +2,8 @@ module "istio" {
   count  = var.istio_enabled ? 1 : 0
   source = "./services/istio"
 
-  cluster_id          = module.eks_cluster.cluster_id
-  kubeconfig_filename = module.eks_cluster.kubeconfig_filename
+  cluster_id          = var.cluster_id
+  kubeconfig_filename = var.kubeconfig_filename
 
   dashboards_expose                   = false
   cert_manager_enabled                = module.cert_manager[count.index].cluster_issuer_enabled
@@ -15,5 +15,4 @@ module "istio" {
   oauth_issuer         = var.istio_oauth_issuer
   oauth_jwks_uri       = var.istio_oauth_jwks_uri
 
-  depends_on = [module.eks_cluster]
 }

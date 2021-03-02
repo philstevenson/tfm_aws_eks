@@ -3,6 +3,4 @@ module "aws_efs" {
   source = "./services/aws_efs"
 
   chart_version = var.aws_efs_chart_version
-
-  depends_on = [module.eks_cluster]
 }

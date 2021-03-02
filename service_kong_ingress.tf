@@ -3,6 +3,4 @@ module "kong_ingress" {
   source = "./services/kong_ingress"
 
   chart_version = var.kong_ingress_chart_version
-
-  depends_on = [module.eks_cluster]
 }
