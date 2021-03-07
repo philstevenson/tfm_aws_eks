@@ -13,7 +13,7 @@ variable "cluster_id" {
 
 variable "oidc_provider_arn" {
   description = <<-EOD
-  ARN of the OIDC provider of the K8s cluster. Used for authentication. 
+  ARN of the OIDC provider of the K8s cluster. Used for authentication.
   This value is given by the EKS creation process and it's used for IAM role creation
   EOD
   type        = string
@@ -112,7 +112,7 @@ variable "aws_lb_ingress_chart_version" {
 }
 
 variable "aws_lb_ingress_app_version" {
-  description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
+  description = "The version of aws-alb-ingress-controller (repo: https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
   default     = "2.1.3"
 }
 
@@ -121,7 +121,7 @@ variable "aws_lb_ingress_app_version" {
 ###
 
 variable "cluster_autoscaler_enabled" {
-  description = "deploy cluster_autoscaler (https://github.com/kubernetes/autoscaler/)"
+  description = "Deploy Cluster Autoscaler (https://github.com/kubernetes/autoscaler/)"
   type        = bool
   default     = false
 }
@@ -132,7 +132,7 @@ variable "cluster_autoscaler_chart_version" {
 }
 
 variable "cluster_autoscaler_image_tag" {
-  description = "The Helm chart version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
+  description = "The version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
   default     = "v1.17.3"
 }
 
@@ -146,7 +146,7 @@ variable "cluster_autoscaler_extra_arguments" {
 ###
 
 variable "external_dns_enabled" {
-  description = "deploy external_dns (https://github.com/kubernetes-sigs/external-dns)"
+  description = "Deploy external_dns (https://github.com/kubernetes-sigs/external-dns)"
   type        = bool
   default     = false
 }
@@ -161,7 +161,7 @@ variable "external_dns_chart_version" {
 ###
 
 variable "istio_enabled" {
-  description = "deploy istio (https://istio.io)"
+  description = "Deploy istio (https://istio.io)"
   type        = bool
   default     = false
 }
@@ -178,7 +178,7 @@ variable "istio_request_auth_enabled" {
 }
 
 variable "istio_oauth_issuer" {
-  description = "The OAuth issuer for token verification. For auth0 this is the tennant url"
+  description = "The OAuth issuer for token verification. For auth0 this is the tennant URL"
   type        = string
   default     = ""
 }
@@ -194,13 +194,13 @@ variable "istio_oauth_jwks_uri" {
 ###
 
 variable "knative_enabled" {
-  description = "deploy knative (https://knative.dev)"
+  description = "Deploy knative (https://knative.dev)"
   type        = bool
   default     = false
 }
 
 variable "knative_version" {
-  description = "the version of knative"
+  description = "The version of knative"
   default     = "0.16.0"
 }
 
@@ -209,7 +209,7 @@ variable "knative_version" {
 ###
 
 variable "kong_ingress_enabled" {
-  description = "deploy kong_ingress (https://github.com/Kong/kubernetes-ingress-controller)"
+  description = "Deploy kong_ingress (https://github.com/Kong/kubernetes-ingress-controller)"
   type        = bool
   default     = false
 }
@@ -224,7 +224,7 @@ variable "kong_ingress_chart_version" {
 ###
 
 variable "ambassador_ingress_enabled" {
-  description = "deploy ambassador_ingress (https://www.getambassador.io/)"
+  description = "Deploy ambassador_ingress (https://www.getambassador.io/)"
   type        = bool
   default     = false
 }
@@ -271,7 +271,7 @@ variable "ambassador_oauth_client_secret" {
 variable "kubernetes_dashboard_enabled" {
   description = "Deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kubernetes_dashboard_chart_version" {
@@ -372,4 +372,3 @@ variable "cloudwatch_metrics_image_tag" {
   type        = string
   default     = "1.247345.36b249270"
 }
-
