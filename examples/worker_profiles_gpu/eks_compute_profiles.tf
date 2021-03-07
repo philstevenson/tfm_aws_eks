@@ -1,3 +1,15 @@
+data "aws_ami" "eks_gpu_worker" {
+  filter {
+    name = "name"
+    ## aws ec2 describe-images --region eu-west-1 --owners "amazon" --query 'Images[*].[Name]' --output text
+    values = ["amazon-eks-gpu-node-${local.cluster_version}-v*"]
+  }
+
+  most_recent = true
+
+  owners = ["amazon"]
+}
+
 # For additional options check https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/local.tf
 
 locals {
@@ -79,7 +91,7 @@ locals {
       enable_monitoring      = true
 
       kubelet_extra_args            = " --node-labels mycompany.com/compute_profile=gpu_v1,k8s.amazonaws.com/accelerator=nvidia-tesla,nvidia.com/gpu=true --register-with-taints=nvidia.com/gpu=true:NoSchedule"
-      subnets                       = module.networking-primary-region-vpc1.private_subnets
+      subnets                       = local.subnet_ids
       additional_security_group_ids = []
     },
     {
@@ -121,7 +133,7 @@ locals {
       enable_monitoring = true
 
       kubelet_extra_args            = " --node-labels mycompany.com/compute_profile=fast --register-with-taints=mycompany.com/compute_profile=fast:NoSchedule"
-      subnets                       = module.networking-primary-region-vpc1.private_subnets
+      subnets                       = local.subnet_ids
       additional_security_group_ids = []
     }
   ]
