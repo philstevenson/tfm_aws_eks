@@ -135,6 +135,9 @@ module "eks_cluster_utils" {
   fluentbit_cloudwatchlogs_image_tag         = "2.7.0"
   fluentbit_cloudwatchlogs_log_group_name    = "/aws/eks/logs"
   fluentbit_cloudwatchlogs_retention_in_days = 30
+  fluentbit_cloudwatchlogs_toleration_noschedule = [
+    "mycompany.com/compute_profile"
+  ]
 
   ###
   ## AWS Cloudwatch metrics
