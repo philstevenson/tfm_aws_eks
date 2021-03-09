@@ -6,41 +6,35 @@ variable "cluster_name" {
   type = string
 }
 
-variable "cluster_version" {
-  type    = string
-  default = "1.18"
+variable "cluster_id" {
+  description = "ID of the Kubernetes cluster"
+  type        = string
 }
 
-variable "cluster_enabled_log_types" {
-  default = [
-    "api",
-    "audit",
-    "authenticator",
-    "controllerManager",
-    "scheduler"
-  ]
-  description = "A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)"
-  type        = list(string)
+variable "oidc_provider_arn" {
+  description = <<-EOD
+  ARN of the OIDC provider of the K8s cluster. Used for authentication.
+  This value is given by the EKS creation process and it's used for IAM role creation
+  EOD
+  type        = string
 }
 
-variable "cluster_log_retention_in_days" {
-  default     = 30
-  description = "Number of days to retain log events. Default retention - 30 days."
-  type        = number
+variable "cluster_oidc_issuer_url" {
+  description = <<-EOD
+  URL of the OIDC issuer of the K8s cluster, Used for authentication.
+  This value is given by the EKS creation process and it's used for IAM role creation.
+  EOD
+  type        = string
 }
 
-variable "cluster_log_kms_key_id" {
-  default = ""
+variable "cluster_endpoint" {
+  description = "The endpoint for your EKS Kubernetes API."
+  type        = string
 }
 
-variable "cluster_delete_timeout" {
-  description = ""
-  default     = "30m"
-}
-
-variable "enable_irsa" {
-  description = "Whether to create OpenID Connect Provider for EKS to enable IRSA"
-  default     = true
+variable "kubeconfig_filename" {
+  description = "The filename of the generated kubectl config."
+  type        = string
 }
 
 variable "vpc_id" {
@@ -48,136 +42,10 @@ variable "vpc_id" {
   description = "ID of the VPC this project is going to be deployed on"
 }
 
-variable "cluster_endpoint_private_access_cidrs" {
-  description = "List of CIDR blocks which can access the Amazon EKS private API server endpoint."
-  type        = list(string)
-  default     = null
-}
-
-variable "cluster_endpoint_private_access" {
-  description = "Indicates whether or not the Amazon EKS private API server endpoint is enabled."
-  type        = bool
-  default     = false
-}
-
-variable "cluster_endpoint_public_access" {
-  description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled."
-  type        = bool
-  default     = true
-}
-
-variable "cluster_endpoint_public_access_cidrs" {
-  description = "List of CIDR blocks which can access the Amazon EKS public API server endpoint."
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
-
-variable "node_groups" {
-  description = "Map of map of node groups to create. See `node_groups` module's documentation for more details"
-  type        = any
-  default     = {}
-}
-
-variable "map_accounts" {
-  description = "Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf at https://github.com/terraform-aws-modules/terraform-aws-eks for example format."
-  type        = list(string)
-  default     = []
-}
-
-variable "map_roles" {
-  description = "Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf at https://github.com/terraform-aws-modules/terraform-aws-eks for example format."
-  type = list(object({
-    rolearn  = string
-    username = string
-    groups   = list(string)
-  }))
-  default = []
-}
-
-variable "map_users" {
-  description = "Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf at https://github.com/terraform-aws-modules/terraform-aws-eks for example format."
-  type = list(object({
-    userarn  = string
-    username = string
-    groups   = list(string)
-  }))
-  default = []
-}
-
-variable "subnets" {
-  description = "A list of subnets to place the EKS cluster and workers within."
-  type        = list(string)
-}
-
 variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)
   default     = {}
-}
-
-
-###
-## EKS workers
-###
-
-variable "worker_groups" {
-  description = "A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults at https://github.com/terraform-aws-modules/terraform-aws-eks/local.tf  for valid keys."
-  type        = any
-  default     = []
-}
-
-variable "workers_group_defaults" {
-  description = "Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys."
-  type        = any
-  default     = {}
-}
-
-variable "worker_groups_launch_template" {
-  description = "A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults at https://github.com/terraform-aws-modules/terraform-aws-eks/local.tf for valid keys."
-  type        = any
-  default     = []
-}
-
-variable "worker_ami_name_filter" {
-  description = "Name filter for AWS EKS worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used."
-  type        = string
-  default     = ""
-}
-
-variable "worker_ami_name_filter_windows" {
-  description = "Name filter for AWS EKS Windows worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used."
-  type        = string
-  default     = ""
-}
-
-variable "worker_ami_owner_id" {
-  description = "The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft')."
-  type        = string
-  default     = "amazon"
-}
-
-variable "worker_ami_owner_id_windows" {
-  description = "The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft')."
-  type        = string
-  default     = "amazon"
-}
-
-variable "worker_security_group_id" {
-  description = "If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster."
-  type        = string
-  default     = ""
-}
-
-variable "worker_additional_security_group_ids" {
-  description = "A list of additional security group ids to attach to worker instances"
-  type        = list(string)
-  default     = []
-}
-
-variable "workers_additional_policies" {
-  description = "Additional policies to be added to workers"
-  type        = list(string)
-  default     = []
 }
 
 ###
@@ -240,12 +108,12 @@ variable "aws_lb_ingress_enabled" {
 
 variable "aws_lb_ingress_chart_version" {
   description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://aws.github.io/eks-charts)"
-  default     = "1.0.5"
+  default     = "1.1.5"
 }
 
 variable "aws_lb_ingress_app_version" {
-  description = "The Helm chart version of aws-alb-ingress-controller (chart repo: https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
-  default     = "2.0.0"
+  description = "The version of aws-alb-ingress-controller (repo: https://github.com/kubernetes-sigs/aws-load-balancer-controller)"
+  default     = "2.1.3"
 }
 
 ###
@@ -253,7 +121,7 @@ variable "aws_lb_ingress_app_version" {
 ###
 
 variable "cluster_autoscaler_enabled" {
-  description = "deploy cluster_autoscaler (https://github.com/kubernetes/autoscaler/)"
+  description = "Deploy Cluster Autoscaler (https://github.com/kubernetes/autoscaler/)"
   type        = bool
   default     = false
 }
@@ -264,7 +132,7 @@ variable "cluster_autoscaler_chart_version" {
 }
 
 variable "cluster_autoscaler_image_tag" {
-  description = "The Helm chart version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
+  description = "The version of cluster_autoscaler (chart repo: https://github.com/kubernetes/autoscaler/)"
   default     = "v1.17.3"
 }
 
@@ -278,7 +146,7 @@ variable "cluster_autoscaler_extra_arguments" {
 ###
 
 variable "external_dns_enabled" {
-  description = "deploy external_dns (https://github.com/kubernetes-sigs/external-dns)"
+  description = "Deploy external_dns (https://github.com/kubernetes-sigs/external-dns)"
   type        = bool
   default     = false
 }
@@ -293,7 +161,7 @@ variable "external_dns_chart_version" {
 ###
 
 variable "istio_enabled" {
-  description = "deploy istio (https://istio.io)"
+  description = "Deploy istio (https://istio.io)"
   type        = bool
   default     = false
 }
@@ -310,7 +178,7 @@ variable "istio_request_auth_enabled" {
 }
 
 variable "istio_oauth_issuer" {
-  description = "The OAuth issuer for token verification. For auth0 this is the tennant url"
+  description = "The OAuth issuer for token verification. For auth0 this is the tennant URL"
   type        = string
   default     = ""
 }
@@ -326,13 +194,13 @@ variable "istio_oauth_jwks_uri" {
 ###
 
 variable "knative_enabled" {
-  description = "deploy knative (https://knative.dev)"
+  description = "Deploy knative (https://knative.dev)"
   type        = bool
   default     = false
 }
 
 variable "knative_version" {
-  description = "the version of knative"
+  description = "The version of knative"
   default     = "0.16.0"
 }
 
@@ -341,7 +209,7 @@ variable "knative_version" {
 ###
 
 variable "kong_ingress_enabled" {
-  description = "deploy kong_ingress (https://github.com/Kong/kubernetes-ingress-controller)"
+  description = "Deploy kong_ingress (https://github.com/Kong/kubernetes-ingress-controller)"
   type        = bool
   default     = false
 }
@@ -356,7 +224,7 @@ variable "kong_ingress_chart_version" {
 ###
 
 variable "ambassador_ingress_enabled" {
-  description = "deploy ambassador_ingress (https://www.getambassador.io/)"
+  description = "Deploy ambassador_ingress (https://www.getambassador.io/)"
   type        = bool
   default     = false
 }
@@ -403,7 +271,7 @@ variable "ambassador_oauth_client_secret" {
 variable "kubernetes_dashboard_enabled" {
   description = "Deploy kubernetes_dashboard (https://github.com/kubernetes/dashboard)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "kubernetes_dashboard_chart_version" {
@@ -441,6 +309,8 @@ variable "efs_enabled" {
 
 variable "aws_efs_chart_version" {
   description = "The Helm chart version of AWS EFS CSI driver (chart repo: https://github.com/kubernetes-sigs/aws-efs-csi-driver/helm)"
+  type        = string
+  default     = "v1.1.2"
 }
 
 ###
@@ -456,7 +326,7 @@ variable "fluentbit_cloudwatchlogs_enabled" {
 variable "fluentbit_cloudwatchlogs_chart_version" {
   description = "The Helm chart version of AWS for fluent bit Helm chart (https://github.com/aws/eks-charts/tree/master/stable/aws-for-fluent-bit)"
   type        = string
-  default     = "0.1.5"
+  default     = "0.1.6"
 }
 
 variable "fluentbit_cloudwatchlogs_image_tag" {
@@ -494,7 +364,7 @@ variable "cloudwatch_metrics_enabled" {
 variable "cloudwatch_metrics_chart_version" {
   description = "The Helm chart version of aws-cloudwatch-metrics Helm chart (https://github.com/aws/eks-charts/tree/master/stable/aws-cloudwatch-metrics)"
   type        = string
-  default     = "0.0.1"
+  default     = "0.0.4"
 }
 
 variable "cloudwatch_metrics_image_tag" {
@@ -502,4 +372,3 @@ variable "cloudwatch_metrics_image_tag" {
   type        = string
   default     = "1.247345.36b249270"
 }
-

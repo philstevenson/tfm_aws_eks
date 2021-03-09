@@ -29,6 +29,7 @@ resource "helm_release" "aws_lb_ingress" {
 
 resource "null_resource" "aws_lb_ingress" {
   triggers = {
+    clusterid                  = var.cluster_id ## Added here to time the deployment correctly.
     kubeconfig                 = var.kubeconfig_filename,
     md5_crds_checksum          = filemd5("${path.module}/crds/crds.yaml")
     md5_kustomization_checksum = filemd5("${path.module}/crds/kustomization.yaml")
